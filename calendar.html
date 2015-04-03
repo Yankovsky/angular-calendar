@@ -1,0 +1,28 @@
+<table>
+    <thead>
+        <tr>
+            <th>
+                <button type="button" ng-click="move(-1)" ng-disabled="moveLeftDisabled">left</button>
+            </th>
+            <th colspan="5">
+                {{title}}
+            </th>
+            <th>
+                <button type="button" ng-click="move(1)" ng-disabled="moveRightDisabled">right</button>
+            </th>
+        </tr>
+        <tr>
+            <th ng-repeat="label in labels track by $index">
+                {{label}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in rows">
+            <td ng-repeat="$day in row track by $index" ng-click="handleDayClick($day)" ng-class="getClasses($day)">
+                {{$day.label}}
+                <ng-include src="dayTemplate"></ng-include>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -70,9 +70,9 @@
         Большой календарь
         <calendar class="big" format-day-header="dddd" custom-classes="getStatus" on-day-click="onDayClick" day-template="day.html"></calendar>
         <pre>{{logObj(dogsByDays)}}</pre>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/moment/locale/ru.js"></script>
+        <script src="angular.js"></script>
+        <script src="moment.js"></script>
+        <script src="ru.js"></script>
         <script src="calendar.js"></script>
         <script>
             angular.module("app", ["calendar"]).controller("AppCtrl", function($scope) {

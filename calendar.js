@@ -16,13 +16,11 @@ angular.module('calendar', []).directive('calendar', ['$timeout', function($time
     return {
         restrict: 'EA',
         templateUrl: 'calendar.html',
-        scope: {
-            customClasses: '&',
-            onDayClick: '&',
-            formatDayHeader: '@',
-            dayTemplate: '@'
-        },
         link: function(scope, element, attrs) {
+            scope.dayTemplate = attrs.dayTemplate
+            var customClasses = scope.$eval(attrs.customClasses)
+            var onDayClick = scope.$eval(attrs.onDayClick)
+
             var currentDate = moment()
             var minDate = currentDate.clone()
             var maxDate = currentDate.clone().add(90, 'days')
@@ -34,7 +32,7 @@ angular.module('calendar', []).directive('calendar', ['$timeout', function($time
             }
 
             scope.getClasses = function(day) {
-                var classes = [scope.customClasses()(day)]
+                var classes = [customClasses(day)]
                 angular.forEach(['disabled', 'secondary'], function(property) {
                     if (day[property]) {
                         classes.push(property)
@@ -48,7 +46,7 @@ angular.module('calendar', []).directive('calendar', ['$timeout', function($time
                     if (day.secondary) {
                         scope.move(day.date.isBefore(currentDate) ? -1 : 1)
                     }
-                    scope.onDayClick()(day)
+                    onDayClick(day)
                 }
             }
 
@@ -112,7 +110,7 @@ angular.module('calendar', []).directive('calendar', ['$timeout', function($time
 
                 scope.labels = new Array(7)
                 for (var j = 0; j < 7; j++) {
-                    scope.labels[j] = days[j].date.format(scope.formatDayHeader)
+                    scope.labels[j] = days[j].date.format(attrs.formatDayHeader)
                 }
 
                 scope.title = currentDate.format('MMMM')

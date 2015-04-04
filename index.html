@@ -36,61 +36,73 @@
                 height: 10px;
                 display: inline-block;
             }
+            .small td {
+                width: 30px;
+                height: 30px;
+            }
+            .big td {
+                width: 100px;
+                height: 100px;
+            }
         </style>
     </head>
     <body ng-app="app" ng-controller="AppCtrl">
-        <!--<calendar format-day-header="dd"></calendar>-->
-        <calendar format-day-header="dddd" custom-classes="getStatus" on-day-click="onDayClick" day-template="day.html"></calendar>
-        <div>Свободно -
-            <div class="color-sample available"></div>
+        <div>
+            <div>Свободно -
+                <div class="color-sample available"></div>
+            </div>
+            <div>Недоступно -
+                <div class="color-sample unavailable"></div>
+            </div>
+            <div>Полностью занято -
+                <div class="color-sample fully-occupied"></div>
+            </div>
+            <div>Частично занято -
+                <div class="color-sample partially-occupied"></div>
+            </div>
+            <div>Вне промежутка -
+                <div class="color-sample disabled"></div>
+            </div>
+            <div>Другой месяц - прозрачность</div>
         </div>
-        <div>Недоступно -
-            <div class="color-sample unavailable"></div>
-        </div>
-        <div>Полностью занято -
-            <div class="color-sample fully-occupied"></div>
-        </div>
-        <div>Частично занято -
-            <div class="color-sample partially-occupied"></div>
-        </div>
-        <div>Вне промежутка -
-            <div class="color-sample disabled"></div>
-        </div>
-        <div>Другой месяц - прозрачность</div>
+        виджет:
+        <calendar class="small" format-day-header="dd" custom-classes="getStatus" readonly="true"></calendar>
+        Большой календарь
+        <calendar class="big" format-day-header="dddd" custom-classes="getStatus" on-day-click="onDayClick" day-template="day.html"></calendar>
         <pre>{{logObj(dogsByDays)}}</pre>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/moment/moment.js"></script>
         <script src="bower_components/moment/locale/ru.js"></script>
         <script src="calendar.js"></script>
         <script>
-            angular.module('app', ['calendar']).controller('AppCtrl', function($scope) {
+            angular.module("app", ["calendar"]).controller("AppCtrl", function($scope) {
                 $scope.logObj = function(obj) {
                     return JSON.stringify(obj, null, 4)
                 }
 
                 $scope.dogsByDays = {
-                    "20150409": ['bobik'],
+                    "20150409": ["bobik"],
                     "20150412": true,
-                    "20150414": ['shmobik', 'zlobik'],
-                    "20150420": ['sharik', 'tarik', 'parik'],
+                    "20150414": ["shmobik", "zlobik"],
+                    "20150420": ["sharik", "tarik", "parik"],
                     "20150520": true,
                     "20150521": true,
-                    "20150501": ['lol', 'bol', 'wol']
+                    "20150501": ["lol", "bol", "wol"]
                 }
 
                 $scope.getStatus = function(day) {
                     var dayData = $scope.dogsByDays[day.id]
                     if (!dayData) {
-                        return 'available'
+                        return "available"
                     } else if (dayData) {
                         if (angular.isArray(dayData)) {
                             if (dayData.length < 3) {
-                                return 'partially-occupied'
+                                return "partially-occupied"
                             } else {
-                                return 'fully-occupied'
+                                return "fully-occupied"
                             }
                         } else {
-                            return 'unavailable'
+                            return "unavailable"
                         }
                     }
                 }
